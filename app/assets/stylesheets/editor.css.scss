@@ -1,0 +1,19 @@
+.image-drop {
+  background: rgba(0,0,0,0.5);
+
+  &.dragover {
+    background: rgba(100,40,0,0.5);
+  }
+}
+
+.swatches {
+  text-align: center;
+  height: 100px;
+  .swatch {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    margin: 20px;
+    float: left;
+  }
+}
