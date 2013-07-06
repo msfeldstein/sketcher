@@ -1,7 +1,7 @@
 .horizontal-row
-  .pane
+  .pane.editor-holder
     .play
-      Play
+    .pause
     #editor
   .pane.vertical-row
     .pane
@@ -9,4 +9,16 @@
     .pane.no-flex
       .swatches
     .pane
-      %canvas.canvas
+      .canvas
+
+%script#sample{:type => "application/processing"}
+  :plain
+    void setup() {
+      size(WIDTH, HEIGHT);
+    }
+
+    void draw() {
+      background(80, 80, 180);
+      float s = 100 + 20 * Math.sin(millis() / 500);
+      ellipse(width / 2, height / 2, s, s);
+    }

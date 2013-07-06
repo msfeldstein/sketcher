@@ -20,9 +20,34 @@
 
 #editor {
   height: 100%;
-  width: 50%;
+  width: 100%;
 }
 
 .canvas {
   background: black;
+}
+
+.editor-holder {
+  position: relative;
+}
+.play {
+  z-index: 10000;
+  position:absolute;
+  right: 10px;
+  top: 10px;
+  width: 32px;
+  height: 32px;
+  background: asset_data_url('play.png');
+  background-size: cover;
+}
+
+.pause {
+  z-index: 10000;
+  position:absolute;
+  right: 50px;
+  top: 10px;
+  width: 32px;
+  height: 32px;
+  background: asset_data_url('pause.png');
+  background-size: cover;
 }
