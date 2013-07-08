@@ -8,7 +8,7 @@ class App.View.EditorView extends Backbone.View
   initialize: () ->
     _.bindAll @
     @render()
-    @model.bind 'change:script', @setValue
+    @listenTo @model, 'change:script', @setValue
     @editor.getSession().on 'change', @changed
 
   changed: () ->

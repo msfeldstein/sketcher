@@ -4,8 +4,8 @@ class App.View.ProcessingView extends Backbone.View
   initialize: () ->
     _.bindAll @
     @jel = $(@el)
-    @model.bind "run", @runningChanged
-    @model.bind "pause", @runningChanged
+    @listenTo @model, 'run', @runningChanged
+    @listenTo @model, 'pause', @runningChanged
     $(window).resize @runningChanged
 
   runningChanged: () ->
