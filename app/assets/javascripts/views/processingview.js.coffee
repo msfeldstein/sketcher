@@ -4,7 +4,8 @@ class App.View.ProcessingView extends Backbone.View
   initialize: () ->
     _.bindAll @
     @jel = $(@el)
-    @model.bind "change:running", @runningChanged
+    @model.bind "run", @runningChanged
+    @model.bind "pause", @runningChanged
     $(window).resize @runningChanged
 
   runningChanged: () ->
@@ -19,4 +20,4 @@ class App.View.ProcessingView extends Backbone.View
       @jel.append(canvas)
       @processingInstance = new Processing(canvas, @model.get("script"))
     else
-      @processingInstance.noLoop()
+      @processingInstance?.noLoop()

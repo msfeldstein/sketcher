@@ -8,7 +8,15 @@ class App.View.EditorView extends Backbone.View
   initialize: () ->
     _.bindAll @
     @render()
-    @model.bind 'change:script', 'setValue'
+    @model.bind 'change:script', @setValue
+    @editor.getSession().on 'change', @changed
+
+  changed: () ->
+    clearTimeout @timer
+    @timer = setTimeout @save, 2000
+
+  save: () ->
+    @model.set "script", @editor.getValue()
 
   render: () ->
     @editor = ace.edit("editor")
@@ -17,12 +25,13 @@ class App.View.EditorView extends Backbone.View
     @setValue()
 
   setValue: () ->
-    @editor.setValue(@model.get('script'))
+    @editor.setValue(@model.get('script'), @editor.getCursorPosition())
 
   play: () ->
-    @model.set "running", true, {silent: true}
-    @model.trigger('change:running')
+    @save()
+    @model.set "running", true
+    @model.trigger('run')
 
   pause: () ->
-    @model.set "running", false, {silent: true}
-    @model.trigger('change:running')
+    @model.set "running", false
+    @model.trigger('pause')
