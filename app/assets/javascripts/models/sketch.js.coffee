@@ -1,12 +1,12 @@
 class App.Model.Sketch extends Backbone.Model
-  urlRoot : '/sketch'
+  urlRoot : '/sketches'
   defaults:
     script: """
       void setup() {
         size(WIDTH, HEIGHT);
         background(0);
       }"""
-    imagedata: ""
+    artwork: ""
     swatches: []
     name: "Sketch"
     running: false

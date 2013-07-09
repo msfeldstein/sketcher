@@ -10,6 +10,7 @@ class App.View.EditorView extends Backbone.View
     @render()
     @listenTo @model, 'change:script', @setValue
     @editor.getSession().on 'change', @changed
+    @editor.setPrintMarginColumn false
 
   changed: () ->
     clearTimeout @timer

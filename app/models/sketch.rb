@@ -1,5 +1,3 @@
 class Sketch < ActiveRecord::Base
-  def to_param
-    name
-  end
+  attr_accessible :name, :script, :artwork
 end
