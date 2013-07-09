@@ -30,6 +30,7 @@ class SketchesController < ApplicationController
     sketch.name = params[:name] || sketch.name
     sketch.script = params[:script] || sketch.script
     sketch.artwork = params[:artwork] || sketch.artwork
+    sketch.swatches_data = params[:swatches_data].to_json || sketch.swatches_data
     sketch.save
     render json: sketch
   end
