@@ -1,3 +1,8 @@
+class App.Model.Swatch extends Backbone.Model
+  defaults:
+    value: ""
+    name: ""
+
 class App.Model.Sketch extends Backbone.Model
   urlRoot : '/sketches'
   defaults:
@@ -7,10 +12,15 @@ class App.Model.Sketch extends Backbone.Model
         background(0);
       }"""
     artwork: ""
-    swatches: []
     name: "Sketch"
     running: false
 
   initialize: () ->
     _.bindAll @
     @listenTo @, "changed", @save
+    @set 'swatches', new Backbone.Collection @get('swatches_data'), model: App.Model.Swatch
+    @listenTo @, "change:swatches_data", @makeSwatches
+
+  makeSwatches: () ->
+    @get('swatches').reset @get('swatches_data')
+    

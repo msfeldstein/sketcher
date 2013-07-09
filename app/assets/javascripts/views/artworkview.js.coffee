@@ -15,6 +15,7 @@ class App.View.ArtworkView extends Backbone.View
     'dragleave': 'dragleave'
     'drop'     : 'drop'
     'mousemove': 'mousemove'
+    'click'    : 'click'
 
   initialize: () ->
     _.bindAll @
@@ -25,12 +26,32 @@ class App.View.ArtworkView extends Backbone.View
     $(window).resize @resized
     @resized()
     $(@canvas).dropImageReader @fileDropped
+    @listenTo @model, 'change:artwork', @artworkChanged
+    @artworkChanged()
+
+  click: (je) ->
+    @mouseX = je.offsetX
+    @mouseY = je.offsetY
+    if @img
+      data = @canvas.getContext('2d').getImageData(@mouseX, @mouseY, 1, 1).data;
+      name = prompt("Swatch Name:")
+      @addSwatch(name, data[0], data[1], data[2])
+
+  addSwatch: (name, r, g, b) ->
+    hex = rgbToHex(r, g, b)
+    @model.get('swatches').add(name: name, value: hex)
 
   fileDropped: (file, event) ->
-    @img = new Image()
-    @img.src = event.target.result
-    console.log @render
-    @img.addEventListener "load", @render
+    @model.set "artwork", event.target.result
+    @model.save()
+
+  artworkChanged: () -> 
+    if @model.get("artwork") 
+      @img = new Image()
+      @img.src = @model.get("artwork")
+      @img.addEventListener "load", @render
+    else
+      @img = null
 
   resized: () ->
     @el.width = document.body.offsetWidth / 2

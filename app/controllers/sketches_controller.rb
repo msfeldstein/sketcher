@@ -5,7 +5,7 @@ class SketchesController < ApplicationController
 
   def show
     @sketch = Sketch.find params[:id]
-    if request.xhr?
+    if request.xhr? or params[:json]
       render json: @sketch
     end
   end
@@ -29,6 +29,7 @@ class SketchesController < ApplicationController
     sketch = Sketch.find params[:id]
     sketch.name = params[:name] || sketch.name
     sketch.script = params[:script] || sketch.script
+    sketch.artwork = params[:artwork] || sketch.artwork
     sketch.save
     render json: sketch
   end
