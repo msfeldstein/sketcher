@@ -14,10 +14,11 @@ class App.View.EditorView extends Backbone.View
 
   changed: () ->
     clearTimeout @timer
-    @timer = setTimeout @save, 2000
+    # @timer = setTimeout @save, 2000
 
   save: () ->
     @model.set "script", @editor.getValue()
+    @model.save()
 
   render: () ->
     @editor = ace.edit("editor")

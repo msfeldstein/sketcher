@@ -17,7 +17,6 @@ class App.Model.Sketch extends Backbone.Model
 
   initialize: () ->
     _.bindAll @
-    @listenTo @, "changed", @save
     @set 'swatches', new Backbone.Collection @get('swatches_data'), model: App.Model.Swatch
     @listenTo @, "change:swatches_data", @makeSwatches
     @listenTo @get('swatches'), "add", @makeSwatchData
@@ -26,9 +25,12 @@ class App.Model.Sketch extends Backbone.Model
   makeSwatches: () ->
     console.log "DATA", @get('swatches_data')
     if @get('swatches_data')
+      console.log "Setting to that"
       @get('swatches').reset JSON.parse(@get('swatches_data'))
-    else
-      @get('swatches').reset()
+    @set "swatches_data", null
+    console.log "DONE DATA MAKE SWATCHES"
 
   makeSwatchData: () ->
+    console.log "MAKE SWATCH DATA"
     @set 'swatches_data', @get('swatches'), {silent: true}
+    console.log "DONE MAKE SWATCH DATA"
