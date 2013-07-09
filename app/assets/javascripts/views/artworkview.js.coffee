@@ -3,8 +3,7 @@ componentToHex = (c) ->
     if hex.length is 1 then "0" + hex else hex
 
 rgbToHex = (r, g, b) ->
-    hex = "FF" + componentToHex(r) + componentToHex(g) + componentToHex(b)
-    parseInt(hex, 16)
+    componentToHex(r) + componentToHex(g) + componentToHex(b)
 
 class App.View.ArtworkView extends Backbone.View
   el: ".image-drop"
@@ -39,7 +38,7 @@ class App.View.ArtworkView extends Backbone.View
 
   addSwatch: (name, r, g, b) ->
     hex = rgbToHex(r, g, b)
-    @model.get('swatches').add(name: name, value: hex)
+    @model.get('swatches').add(name: name, hex: hex, value: parseInt("#FF{hex}", 16))
 
   fileDropped: (file, event) ->
     @model.set "artwork", event.target.result

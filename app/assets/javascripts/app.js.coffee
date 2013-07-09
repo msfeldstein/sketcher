@@ -6,3 +6,4 @@ $(document).ready () =>
   @editorView = new App.View.EditorView model: @sketch
   @processingView = new App.View.ProcessingView model: @sketch
   @artworkView = new App.View.ArtworkView model: @sketch
+  @swatchesView = new App.View.SwatchesView model: @sketch
