@@ -1,0 +1,7 @@
+.sketches
+  - for sketch in @sketches
+    = link_to sketch.name, sketch, :class => "sketch"
+  %br
+  = form_for Sketch.new, :action => :create do |f|
+    = f.text_field "name", :placeholder => "Name"
+    = f.submit "New Sketch"

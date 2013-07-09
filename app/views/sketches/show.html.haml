@@ -1,0 +1,15 @@
+.horizontal-row
+  .pane.editor-holder
+    .play
+    .pause
+    #editor
+  .pane.vertical-row
+    .pane
+      %canvas.image-drop.droppable
+    .pane.no-flex
+      .swatches
+    .pane
+      #canvas-container
+
+:javascript
+  var sketch_id = "#{@sketch.id}";

@@ -1,0 +1,14 @@
+.sketches {
+  padding: 20px;
+  .sketch {
+    display: block;
+    font-size: 30px;
+    color: #CCC;
+    text-decoration: none;
+    padding: 3px;
+    &:hover {
+      background: #555;
+      color: #FFF;
+    }
+  }
+}
