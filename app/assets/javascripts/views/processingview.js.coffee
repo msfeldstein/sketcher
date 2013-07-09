@@ -6,7 +6,13 @@ class App.View.ProcessingView extends Backbone.View
     @jel = $(@el)
     @listenTo @model, 'run', @runningChanged
     @listenTo @model, 'pause', @runningChanged
+    @listenTo @model.get('swatches'), 'reset', @updateSwatches
+    @listenTo @model.get('swatches'), 'add', @updateSwatches
+    @listenTo @model.get('swatches'), 'remove', @updateSwatches
     $(window).resize @runningChanged
+
+  updateSwatches: () ->
+    @runningChanged()
 
   runningChanged: () ->
     if @model.get("running")
@@ -18,6 +24,10 @@ class App.View.ProcessingView extends Backbone.View
       window.HEIGHT = canvas.height
       @jel.empty()
       @jel.append(canvas)
-      @processingInstance = new Processing(canvas, @model.get("script"))
+      script = @model.get("script")
+      @model.get('swatches').each (swatch) =>
+        script = "color #{swatch.get('name')} = #{swatch.get('value')};\n" + script
+      console.log "SCRIPT #{script}"
+      @processingInstance = new Processing(canvas, script)
     else
       @processingInstance?.noLoop()

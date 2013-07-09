@@ -38,7 +38,9 @@ class App.View.ArtworkView extends Backbone.View
 
   addSwatch: (name, r, g, b) ->
     hex = rgbToHex(r, g, b)
-    @model.get('swatches').add(name: name, hex: hex, value: parseInt("#FF{hex}", 16))
+    value = parseInt("FF#{hex}", 16)
+    console.log "HEX #{hex} VALUE #{value} 'FF#{hex}'"
+    @model.get('swatches').add(name: name, hex: hex, value: value)
 
   fileDropped: (file, event) ->
     @model.set "artwork", event.target.result
