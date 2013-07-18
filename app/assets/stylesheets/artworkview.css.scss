@@ -1,0 +1,22 @@
+.image-drop {
+	position: relative;
+
+	.buttons {
+		position: absolute;
+		top: 0;
+		right: 0;
+		margin: 5px;
+
+		.zoom-in {
+			width: 35px;
+			height: 32px;
+			background: asset-data-url("zoomin.png");
+		}
+
+		.zoom-out {
+			width: 35px;
+			height: 35px;
+			background: asset-data-url("zoomout.png");
+		}
+	}
+}

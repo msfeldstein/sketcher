@@ -23,14 +23,8 @@ class App.Model.Sketch extends Backbone.Model
     @listenTo @get('swatches'), "remove", @makeSwatchData
 
   makeSwatches: () ->
-    console.log "DATA", @get('swatches_data')
     if @get('swatches_data')
-      console.log "Setting to that"
       @get('swatches').reset JSON.parse(@get('swatches_data'))
-    @set "swatches_data", null
-    console.log "DONE DATA MAKE SWATCHES"
 
   makeSwatchData: () ->
-    console.log "MAKE SWATCH DATA"
     @set 'swatches_data', @get('swatches'), {silent: true}
-    console.log "DONE MAKE SWATCH DATA"

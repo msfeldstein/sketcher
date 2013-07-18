@@ -27,6 +27,9 @@ class App.View.ProcessingView extends Backbone.View
       script = @model.get("script")
       @model.get('swatches').each (swatch) =>
         script = "color #{swatch.get('name')} = #{swatch.get('value')};\n" + script
-      @processingInstance = new Processing(canvas, script)
+      try 
+        @processingInstance = new Processing(canvas, script)
+      catch e
+        alert("ERROR: " + e.message)
     else
       @processingInstance?.noLoop()

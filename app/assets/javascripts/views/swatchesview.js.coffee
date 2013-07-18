@@ -1,7 +1,7 @@
 class App.View.SwatchView extends Backbone.View
   className: 'swatch'
   initialize: () ->
-    _.bindAll()
+    _.bindAll @
     @render()
     @listenTo @model, "change", @render
 

@@ -1,0 +1,15 @@
+
+
+:javascript
+	window.WIDTH = document.body.offsetWidth
+	window.HEIGHT = document.body.offsetHeight
+
+- swatches = JSON.parse(@sketch.swatches_data)
+- for swatch in swatches
+	:javascript
+		window["#{swatch['name']}"] = "#{swatch['value']}"
+
+%canvas#canvas-holder
+
+%script#sketch-script{:type => "application/processing", :data => {:processing_target => "canvas-holder"}}
+	= raw "#{@sketch.script}"

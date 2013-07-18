@@ -1,15 +1,22 @@
-.horizontal-row
-  .pane.editor-holder
-    .play
-    .pause
-    #editor
-  .pane.vertical-row
-    .pane
-      %canvas.image-drop.droppable
-    .pane.no-flex
-      .swatches
-    .pane
-      #canvas-container
+.vertical-row
+  .toolbar.no-flex
+    = render :partial => "toolbar"
+  .horizontal-row
+    .pane.editor-holder
+      .play
+      .pause
+      #editor
+    .pane.vertical-row
+      .pane
+        .image-drop.droppable
+          %canvas
+          .buttons
+            .zoom-in
+            .zoom-out
+      .pane.no-flex
+        .swatches
+      .pane
+        #canvas-container
 
 :javascript
   var sketch_id = "#{@sketch.id}";

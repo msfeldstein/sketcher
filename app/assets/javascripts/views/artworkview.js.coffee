@@ -14,11 +14,14 @@ class App.View.ArtworkView extends Backbone.View
     'dragleave': 'dragleave'
     'drop'     : 'drop'
     'mousemove': 'mousemove'
-    'click'    : 'click'
+    'click .zoom-in': 'zoomIn'
+    'click .zoom-out': 'zoomOut'
+    'click canvas'    : 'click'
 
   initialize: () ->
     _.bindAll @
-    @canvas = @el
+    @scale = 1
+    @canvas = @el.getElementsByTagName('canvas')[0];
     @fbo = document.createElement('canvas')
     @fbo.id = 'fbo'
     @fbo.width = @fbo.height = 20
@@ -27,6 +30,17 @@ class App.View.ArtworkView extends Backbone.View
     $(@canvas).dropImageReader @fileDropped
     @listenTo @model, 'change:artwork', @artworkChanged
     @artworkChanged()
+
+  zoomIn: (e) =>
+    @scale++
+    @render()
+    e.preventDefault()
+
+  zoomOut: (e) =>
+    @scale--
+    if @scale < 1 then @scale = 1
+    @render()
+    e.preventDefault()
 
   click: (je) ->
     @mouseX = je.offsetX
@@ -55,8 +69,8 @@ class App.View.ArtworkView extends Backbone.View
       @img = null
 
   resized: () ->
-    @el.width = document.body.offsetWidth / 2
-    @el.height = (document.body.offsetHeight - 100) / 2
+    @canvas.width = document.body.offsetWidth / 2
+    @canvas.height = (document.body.offsetHeight - 100) / 2
     @render()
 
   dragenter: (je) ->
@@ -79,7 +93,7 @@ class App.View.ArtworkView extends Backbone.View
     @mouseY = je.offsetY
     data = @canvas.getContext('2d').getImageData(@mouseX, @mouseY, 1, 1).data;
     @color = "rgb(#{data[0]}, #{data[1]}, #{data[2]})"
-    @preview = @el.getContext('2d').getImageData(@mouseX - 10, @mouseY - 10, 20, 20)
+    @preview = @canvas.getContext('2d').getImageData(@mouseX - 10, @mouseY - 10, 20, 20)
     @render()
 
   render: () ->
@@ -91,7 +105,9 @@ class App.View.ArtworkView extends Backbone.View
       w = @img.width * ratio
       h = @img.height * ratio
       ctx.save()
-      # ctx.scale(scale, scale, -@canvas.width / 2, -@canvas.height / 2)
+      ctx.translate(@canvas.width / 2, @canvas.height / 2)
+      ctx.scale(@scale, @scale)
+      ctx.translate(-@canvas.width / 2, -@canvas.height / 2)
       ctx.drawImage(@img, 0, 0, @img.width, @img.height, @canvas.width / 2 - w / 2, 0, w, h)
       ctx.restore()
     ctx.fillStyle = @color

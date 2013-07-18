@@ -30,13 +30,19 @@ class SketchesController < ApplicationController
     sketch.name = params[:name] || sketch.name
     sketch.script = params[:script] || sketch.script
     sketch.artwork = params[:artwork] || sketch.artwork
-    if params[:swatches_data]
-      sketch.swatches_data = params[:swatches_data].to_json || sketch.swatches_data
-    end
+    sketch.swatches_data = params[:swatches].to_json
+    # if params[:swatches_data]
+    #   sketch.swatches_data = params[:swatches_data].to_json || sketch.swatches_data
+    # end
     sketch.save
     render json: sketch
   end
 
   def destroy
+  end
+
+  def embed
+    @sketch = Sketch.find params[:id]
+    render :layout => "embed"
   end
 end
