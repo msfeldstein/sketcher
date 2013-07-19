@@ -13,6 +13,8 @@ class App.View.ArtworkView extends Backbone.View
     'dragover' : 'dragover'
     'dragleave': 'dragleave'
     'drop'     : 'drop'
+    'mouseenter': 'mouseenter'
+    'mouseleave': 'mouseleave'
     'mousemove': 'mousemove'
     'click .zoom-in': 'zoomIn'
     'click .zoom-out': 'zoomOut'
@@ -30,6 +32,29 @@ class App.View.ArtworkView extends Backbone.View
     $(@canvas).dropImageReader @fileDropped
     @listenTo @model, 'change:artwork', @artworkChanged
     @artworkChanged()
+    @previewAlpha = 0
+
+  mouseenter: () =>
+    clearTimeout @fadeTimer
+    @fadeTimer = setTimeout @fadeIn, 30
+
+  mouseleave: () =>
+    clearTimeout @fadeTimer
+    @fadeTimer = setTimeout @fadeOut, 30    
+
+  fadeIn: () =>
+    @previewAlpha += 1
+    if @previewAlpha > 1 then @previewAlpha = 1
+    @render()
+    if @previewAlpha < 1
+      @fadeTimer = setTimeout @fadeIn, 15 
+
+  fadeOut: () =>
+    @previewAlpha -= 1
+    if @previewAlpha < 0 then @previewAlpha = 0
+    @render()
+    if @previewAlpha > 0
+      @fadeTimer = setTimeout @fadeOut, 15  
 
   zoomIn: (e) =>
     @scale++
@@ -110,6 +135,7 @@ class App.View.ArtworkView extends Backbone.View
       ctx.translate(-@canvas.width / 2, -@canvas.height / 2)
       ctx.drawImage(@img, 0, 0, @img.width, @img.height, @canvas.width / 2 - w / 2, 0, w, h)
       ctx.restore()
+    ctx.globalAlpha = @previewAlpha
     ctx.fillStyle = @color
     ctx.fillRect(20, 20, 80, 80)
     if @preview
@@ -120,3 +146,4 @@ class App.View.ArtworkView extends Backbone.View
     ctx.fillStyle = null
     ctx.strokeStyle = "#000000"
     ctx.strokeRect(20 + 40 - 2, 100 + 40 - 2, 4, 4)
+    ctx.globalAlpha = 1
